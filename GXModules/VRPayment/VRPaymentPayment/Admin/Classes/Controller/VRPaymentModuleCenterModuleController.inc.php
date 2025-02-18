@@ -32,12 +32,12 @@ class VRPaymentModuleCenterModuleController extends AbstractModuleCenterModuleCo
 		$template = $this->getTemplateFile('vrpayment/VRPaymentPayment/Admin/Html/vrpayment_configuration.html');
 		$integrations = [
 			[
-				'id' => 'iframe',
-				'name' => $this->languageTextManager->get_text('integration.iframe', 'vrpayment')
+				'id' => 'payment_page',
+				'name' => $this->languageTextManager->get_text('integration.payment_page', 'vrpayment'),
 			],
 			[
-				'id' => 'payment_page',
-				'name' => $this->languageTextManager->get_text('integration.payment_page', 'vrpayment')
+				'id' => 'iframe',
+				'name' => $this->languageTextManager->get_text('integration.iframe', 'vrpayment')
 			],
 		];
 
