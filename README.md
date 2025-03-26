@@ -1,9 +1,9 @@
 
 
-VRPayment Payment for Gambio 4
+VR Payment Plugin for Gambio 4
 =============================
 
-The VRPayment Payment plugin wraps around the VRPayment API. This library facilitates your interaction with various services such as transactions.
+The VR Payment plugin wraps around the VR Payment API. This library facilitates your interaction with various services such as transactions.
 
 ## Requirements
 
@@ -35,24 +35,24 @@ composer install
 
 6. Click on Toolbox > Clear Cache and clear all caches
 
-7. Click on Modules > Module Center > VRPayment Payment
+7. Click on Modules > Module Center > VR Payment Payment
 
 8. Install the module and clear the cache again (repeat step 5)
 
-9. Select Modules > Module Center > VRPayment Payment again and click Edit
+9. Select Modules > Module Center > VR Payment Payment again and click Edit
 
-10. Enter correct data from VRPayment API and click Save. Payment methods will be synchronised
+10. Enter correct data from VR Payment API and click Save. Payment methods will be synchronised
 
 11. Navigate To Modules -> Payment Systems
 
-12. Click on "Miscellaneous" tab and find "added modules" and click the VRPayment Payment.
+12. Click on "Miscellaneous" tab and find "added modules" and click the VR Payment Payment.
 
-13. Install the VRPayment Payment System
+13. Install the VR Payment Payment System
 
-14. Click Edit, select payment methods that you want to use and save configuration (Payment methods are synchronized from VRPayment and only if they are enabled)
+14. Click Edit, select payment methods that you want to use and save configuration (Payment methods are synchronized from VR Payment and only if they are enabled)
 
 ## Usage
-The library needs to be configured with your account's space id, user id, and application key which are available in your VRPayment
+The library needs to be configured with your account's space id, user id, and application key which are available in your VR Payment
 account dashboard.
 
 ## Documentation
