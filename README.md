@@ -57,7 +57,7 @@ account dashboard.
 
 ## Documentation
 
-[Documentation](https://gateway.vr-payment.de/doc/gambio-4/1.0.25/docs/en/documentation.html)
+[Documentation](https://docs.plugin-documentation.vr-payment.de/vr-payment/gambio-4/1.0.26/docs/en/documentation.html)
 
 ## License
 
