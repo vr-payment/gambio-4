@@ -1,6 +1,6 @@
 <?php
 
-use GXModules\VRPaymentPayment\Library\{Core\Settings\Options\Integration, Core\Settings\Struct\Settings};
+use GXModules\VRPaymentPayment\Library\{Core\Settings\Options\Integration, Core\Settings\Struct\Settings, Core\Api\WebHooks\Service\WebhooksService};
 use VRPayment\Sdk\Model\{AddressCreate, Transaction, TransactionCreate};
 use GXModules\VRPaymentPayment\Library\Helper\VRPaymentHelper;
 
@@ -9,12 +9,29 @@ class VRPayment_CheckoutPaymentContentControl extends VRPayment_CheckoutPaymentC
     public function proceed()
     {
 	    $settings = new Settings();
+		$this->updateWebhooksSignature($settings);
 	    $createdTransaction = $this->createRemoteTransaction($settings);
 	    $_SESSION['createdTransactionId'] = $createdTransaction->getId();
 
 		$_SESSION['gm_error_message'] = $this->getErrorMessage();
 		return parent::proceed();
     }
+
+	/**
+	 * We update webhooks to use signature
+	 * 
+     * @throws \VRPayment\Sdk\ApiException
+     * @throws \VRPayment\Sdk\Http\ConnectionException
+     * @throws \VRPayment\Sdk\VersioningException
+     */
+	private function updateWebhooksSignature(Settings $settings): void
+	{
+		if (!$settings->isWebhookSignatureEnabled() && !empty($settings->getUserId()) 
+			&& !empty($settings->getSpaceId()) && !empty($settings->getApplicationKey())) {
+			$webHooksService = new WebHooksService(MainFactory::create('VRPaymentStorage'));
+			$webHooksService->update();
+		}
+	}
 
     /**
      * @return string
