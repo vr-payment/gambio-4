@@ -48,7 +48,7 @@ class VRPaymentHelper
 		$paymentMethodConfigurations = $paymentService->getPaymentMethodConfigurations();
 		foreach ($paymentMethodConfigurations as $paymentMethodConfiguration) {
 			$slug = 'vrpayment_' . trim(strtolower(self::slugify($paymentMethodConfiguration->getName())));
-			if ($_SESSION['choosen_payment_method'] === $slug) {
+			if ($_SESSION['chosen_payment_method'] === $slug) {
 				$paymentMethodConfigurationId = $paymentMethodConfiguration->getId();
 				break;
 			}
