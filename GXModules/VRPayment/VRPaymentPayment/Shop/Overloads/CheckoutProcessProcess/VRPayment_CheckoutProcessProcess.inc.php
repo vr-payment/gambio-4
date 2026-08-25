@@ -152,7 +152,13 @@ class VRPayment_CheckoutProcessProcess extends VRPayment_CheckoutProcessProcess_
         if ($giftCouponLineItem) {
             $lineItems[] = $giftCouponLineItem;
         }
-
+        
+		  // NEU 08.05.2026 Ermittlung des Rabatts auf der Bestellung / dm
+        $discountOrderLineItem = $this->getDiscountOrderLineItem();
+        if ($discountOrderLineItem) {
+            $lineItems[] = $discountOrderLineItem;
+        }
+			
         $pendingTransaction = new TransactionPending();
         $pendingTransaction->setId($transaction->getId());
         $pendingTransaction->setVersion($transaction->getVersion());
@@ -237,12 +243,13 @@ class VRPayment_CheckoutProcessProcess extends VRPayment_CheckoutProcessProcess_
             $lineItem->setUniqueId('coupon-' . $GLOBALS['ot_coupon']->coupon_code);
             $lineItem->setSku('coupon-' . $GLOBALS['ot_coupon']->coupon_code);
             $lineItem->setQuantity(1);
-            $lineItem->setAmountIncludingTax($xtPrice->xtcFormat($GLOBALS['ot_coupon']->output['0']['value'], false));
+            $lineItem->setAmountIncludingTax(round(($xtPrice->xtcFormat($GLOBALS['ot_coupon']->output['0']['value'], false)), 2));
             $lineItem->setType(LineItemType::DISCOUNT);
             return $lineItem;
         }
         return null;
     }
+
 
     /**
      * @return LineItemCreate|null
@@ -269,7 +276,7 @@ class VRPayment_CheckoutProcessProcess extends VRPayment_CheckoutProcessProcess_
             $lineItem->setUniqueId('gift-voucher-' . $amount);
             $lineItem->setSku('gift-voucher-' . $amount);
             $lineItem->setQuantity(1);
-            $lineItem->setAmountIncludingTax(-1 * $amount);
+				$lineItem->setAmountIncludingTax(round(-1 * $amount, 2));
             $lineItem->setType(LineItemType::DISCOUNT);
             return $lineItem;
         }
@@ -277,6 +284,42 @@ class VRPayment_CheckoutProcessProcess extends VRPayment_CheckoutProcessProcess_
         return null;
     }
 
+	
+    /**
+     * NEU 08.05.2026 Discount auf der Bestellung / dm
+     * @return LineItemCreate|null
+     */
+    private function getDiscountOrderLineItem(): ?LineItemCreate
+    {
+        $orderTotals = $GLOBALS['order_totals'] ?? null;
+        if (empty($orderTotals)) {
+            return null;
+        }
+
+        $customerOrderDiscount = null;
+        foreach ($orderTotals as $orderItem) {
+            if ($orderItem['code'] === 'ot_discount') {
+                $customerOrderDiscount = $orderItem;
+                break;
+            }
+        }
+
+        if ($customerOrderDiscount) {
+            $amount = $customerOrderDiscount['value'];
+            $lineItem = new LineItemCreate();
+            $lineItem->setName('Order Discount');
+            $lineItem->setUniqueId('order-discount-' . $amount);
+            $lineItem->setSku('order-discount-' . $amount);
+            $lineItem->setQuantity(1);
+				$lineItem->setAmountIncludingTax(round($amount, 2));
+            $lineItem->setType(LineItemType::DISCOUNT);
+            return $lineItem;
+        }
+
+        return null;
+    }
+    
+	
     /**
      * @return string
      */
