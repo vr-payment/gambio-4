@@ -153,6 +153,10 @@
 						}
 					});
 
+					form.addEventListener('click', function () {
+						setTimeout(updateSubmitButtonState, 0);
+					});
+
 					updateSubmitButtonState();
 				}
 
