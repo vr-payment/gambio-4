@@ -10,7 +10,7 @@
                 return;
             }
 
-            $selectedPaymentMethod = trim((string)($this->v_data_array['POST']['payment'] ?? ''));
+            $selectedPaymentMethod = trim((string)($this->v_data_array['POST']['payment'] ?? $_SESSION['payment'] ?? ''));
             if (empty($selectedPaymentMethod)) {
                 $this->set_redirect_url(xtc_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=payment_method_not_available', 'SSL', true, false));
                 return;
