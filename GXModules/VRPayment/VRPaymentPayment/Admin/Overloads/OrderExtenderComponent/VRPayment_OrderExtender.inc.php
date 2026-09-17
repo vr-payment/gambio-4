@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use VRPayment\Sdk\Model\TransactionState;
+use GXModules\VRPayment\VRPaymentPayment\Admin\Classes\VRPaymentPageToken;
 use GXModules\VRPayment\VRPaymentPayment\Shop\Classes\Model\VRPaymentTransactionModel;
 use GXModules\VRPayment\VRPaymentPayment\Shop\Classes\Model\VRPaymentRefundModel;
 
@@ -29,6 +30,7 @@ class VRPayment_OrderExtender extends VRPayment_OrderExtender_parent
 		$transactionInfo = $transactionData ? \json_decode($transactionData, true) : [];
 		$transactionState = $transaction->getState();
 		$contentView->set_content_data('orderId', $orderId);
+		$contentView->set_content_data('pageToken', VRPaymentPageToken::get());
 
 		$refunds = VRPaymentRefundModel::getRefunds($orderId);
 		$totalRefundsAmount = VRPaymentRefundModel::getTotalRefundsAmount($refunds);
